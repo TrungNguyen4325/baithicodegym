@@ -2,27 +2,75 @@ import csv
 import os
 from datetime import datetime
 
-FILE_NAME = "expenses.csv" # CSV nằm cùng thư mục với main.py
+FILE_NAME = "expenses.csv"  # CSV nằm cùng thư mục với main.py
 
-# Khởi tạo CSV nếu chưa có
+# Khởi tạo file CSV nếu chưa có
 def init_file():
     if not os.path.exists(FILE_NAME):
         with open(FILE_NAME, mode="w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["date","category","amount","note"])
+            writer.writerow(["date", "category", "amount", "note"])
 
-# Gọi init_file trước khi đọc
-init_file()
-with open(FILE_NAME, mode="r", encoding="utf-8") as f:
-    reader = csv.DictReader(f)
-    rows = list(reader)
+# Hàm thêm chi tiêu
+def add_expense():
+    date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    category = input("Nhập danh mục (ăn uống, đi lại, mua sắm...): ").strip()
+    try:
+        amount = float(input("Nhập số tiền: ").strip())
+    except ValueError:
+        print("❌ Số tiền không hợp lệ!")
+        return
+    note = input("Ghi chú (nếu có): ").strip()
 
-# Kiểm tra dữ liệu
-for row in rows:
-    print(f"Ngày: {row['date']}, Danh mục: {row['category']}, Số tiền: {row['amount']}, Ghi chú: {row['note']}")
+    with open(FILE_NAME, mode="a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow([date, category, amount, note])
+    print("✅ Đã lưu chi tiêu!")
 
-# (Các hàm add_expense, view_expenses, total_expenses, summary_by_category giữ nguyên)
-# ...
+# Hàm xem danh sách chi tiêu
+def view_expenses():
+    with open(FILE_NAME, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    if not rows:
+        print("📂 Chưa có dữ liệu chi tiêu.")
+        return
+
+    print("\n--- Danh sách chi tiêu ---")
+    for i, row in enumerate(rows, start=1):
+        print(f"{i}. Ngày: {row['date']}, Danh mục: {row['category']}, "
+              f"Số tiền: {row['amount']}, Ghi chú: {row['note']}")
+
+# Hàm tính tổng chi tiêu
+def total_expenses():
+    with open(FILE_NAME, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    total = sum(float(row["amount"]) for row in rows)
+    print(f"💰 Tổng chi tiêu: {total:,.0f} VND")
+
+# Hàm thống kê theo danh mục
+def summary_by_category():
+    with open(FILE_NAME, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+    if not rows:
+        print("📂 Chưa có dữ liệu để thống kê.")
+        return
+
+    summary = {}
+    for row in rows:
+        category = row["category"]
+        amount = float(row["amount"])
+        summary[category] = summary.get(category, 0) + amount
+
+    print("\n📊 Thống kê chi tiêu theo danh mục:")
+    for category, total in summary.items():
+        print(f"- {category}: {total:,.0f} VND")
+
 # Menu chính
 def menu():
     init_file()
@@ -34,7 +82,7 @@ def menu():
         print("4. Thống kê theo danh mục")
         print("5. Thoát")
 
-        choice = input("Chọn (1-5): ")
+        choice = input("Chọn (1-5): ").strip()
         if choice == "1":
             add_expense()
         elif choice == "2":
