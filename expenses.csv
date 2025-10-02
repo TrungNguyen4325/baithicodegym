@@ -1,5 +1,5 @@
 # 📒 Sổ tay Tài chính Cá nhân
-date,category,amount,note
+| Date | Category | Amount | Note |
 2025-09-29,Ăn uống,50000,Bữa sáng
 2025-09-29,Xăng xe,70000,Đổ xăng
 2025-09-29,Cà phê,30000,Đi cà phê với bạn
