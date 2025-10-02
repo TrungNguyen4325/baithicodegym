@@ -21,7 +21,7 @@
 git clone https://github.com/TrungNguyen4325/baithicodegym.git
 
 # Vào thư mục dự án
-cd trungnguyen
+cd baithicodegym
 
 # Chạy ứng dụng
 python main.py

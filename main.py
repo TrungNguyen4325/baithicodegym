@@ -2,7 +2,7 @@ import csv
 import os
 from datetime import datetime
 
-FILE_NAME = "expenses.csv" = r"D:\bai\bai_tap_cuoi_khoa\expenses.csv" # CSV nằm cùng thư mục với main.py
+FILE_NAME = r"D:\bai\bai_tap_cuoi_khoa\expenses.csv" # CSV nằm cùng thư mục với main.py
 
 # Khởi tạo file CSV nếu chưa có
 def init_file():
