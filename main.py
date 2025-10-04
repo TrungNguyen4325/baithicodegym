@@ -18,14 +18,14 @@ def add_expense():
     try:
         amount = float(input("Nhập số tiền: ").strip())
     except ValueError:
-        print("❌ Số tiền không hợp lệ!")
+        print(" Số tiền không hợp lệ!")
         return
     note = input("Ghi chú (nếu có): ").strip()
 
     with open(FILE_NAME, mode="a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([date, category, amount, note])
-    print("✅ Đã lưu chi tiêu!")
+    print(" Đã lưu chi tiêu!")
 
 # Hàm xem danh sách chi tiêu
 def view_expenses():
@@ -34,7 +34,7 @@ def view_expenses():
         rows = list(reader)
 
     if not rows:
-        print("📂 Chưa có dữ liệu chi tiêu.")
+        print(" Chưa có dữ liệu chi tiêu.")
         return
 
     print("\n--- Danh sách chi tiêu ---")
@@ -49,7 +49,7 @@ def total_expenses():
         rows = list(reader)
 
     total = sum(float(row["amount"]) for row in rows)
-    print(f"💰 Tổng chi tiêu: {total:,.0f} VND")
+    print(f" Tổng chi tiêu: {total:,.0f} VND")
 
 # Hàm thống kê theo danh mục
 def summary_by_category():
@@ -58,7 +58,7 @@ def summary_by_category():
         rows = list(reader)
 
     if not rows:
-        print("📂 Chưa có dữ liệu để thống kê.")
+        print(" Chưa có dữ liệu để thống kê.")
         return
 
     summary = {}
@@ -67,7 +67,7 @@ def summary_by_category():
         amount = float(row["amount"])
         summary[category] = summary.get(category, 0) + amount
 
-    print("\n📊 Thống kê chi tiêu theo danh mục:")
+    print("\n Thống kê chi tiêu theo danh mục:")
     for category, total in summary.items():
         print(f"- {category}: {total:,.0f} VND")
 
@@ -92,10 +92,10 @@ def menu():
         elif choice == "4":
             summary_by_category()
         elif choice == "5":
-            print("👋 Tạm biệt!")
+            print("Tạm biệt!")
             break
         else:
-            print("❌ Lựa chọn không hợp lệ!")
+            print(" Lựa chọn không hợp lệ!")
 
 if __name__ == "__main__":
     menu()
